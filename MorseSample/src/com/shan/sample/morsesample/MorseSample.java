@@ -17,7 +17,8 @@ public class MorseSample {
             ".----","..---","...--","....-",".....","-....","--...","---..","----.","-----"
             };
 	
-	private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.,?/@1234567890";
+	//,"\\.","\\,","\\?","\\/","\\@"
+	private static final String[] ALPHABET = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","\\.","\\,","\\?","\\/","\\@","","1","2","3","4","5","6","7","8","9","0"};
 	
 	public static void main(String[] args) throws Exception
     {
@@ -52,34 +53,27 @@ public class MorseSample {
     	String line;
 		FileReader f1 = new FileReader(new File(inputPath));
 		BufferedReader read = new BufferedReader(f1);
+		List<String> alphabets = Arrays.asList(ALPHABET);
 		
 		StringBuffer sb = new StringBuffer();
 		
 		while((line = read.readLine()) != null) {
 			// Let's assume that every character is separated from each other with a space
 			String[] words = line.split(" ");
-			if (words.length > 0) { int findLastWord = 0;
-				for (String w : words) {
+			if (words.length > 0) {  int wl = 0;
+				for (String word : words) {
 					int i = 0;
-					while (i < w.length()) {
-						for( int j = 0; j < ALPHABET.length(); j++ )
-			            {	
-			                if (ALPHABET.charAt(j) == w.charAt(i)) 
-			                {	
-			                    sb.append(MORSE[j] +" ");
-			                    break;
-			                }
-			                if (j == (ALPHABET.length() - 1)) {
-			                	
-			                	throw new Exception ("It is an invalid character " + w + " to Morse");
-			                }
+					while (i < word.length()) {
+						String c = String.valueOf(word.charAt(i)).toUpperCase();
+						if (alphabets.contains(c)) {
+							sb.append(MORSE[alphabets.indexOf(c)] + " ");	
+						} else {
+			            	throw new Exception ("invalid character to MORSE" + c );
 			            }
 						i++;
-						if (!(findLastWord < w.length()))
-							sb.append(" ");
-						findLastWord++;
 					}
-					if (findLastWord < w.length())
+					wl++;
+					if(!(wl == words.length))
 						sb.append("/ ");
 				}
 			} 
@@ -134,7 +128,7 @@ public class MorseSample {
     		
     		for( int j = 0; j < MORSE.length; j++ ) {
 				if ( MORSE[j].equals(morseCode)) {
-                    sb.append(ALPHABET.charAt(j));
+                    //sb.append(ALPHABET.charAt(j));
                 	break;
                 }
 
