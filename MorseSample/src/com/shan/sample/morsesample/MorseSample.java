@@ -18,7 +18,7 @@ public class MorseSample {
             };
 	
 	//,"\\.","\\,","\\?","\\/","\\@"
-	private static final String[] ALPHABET = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","\\.","\\,","\\?","\\/","\\@","","1","2","3","4","5","6","7","8","9","0"};
+	private static final String[] ALPHABET = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",".","\\,","\\?","\\/","\\@","1","2","3","4","5","6","7","8","9","0"};
 	
 	public static void main(String[] args) throws Exception
     {
@@ -96,12 +96,11 @@ public class MorseSample {
 		
 		while((line = read.readLine()) != null) {
 			if (line.contains("/")) {
-				String[] words = line.split("/");
+				String[] words = line.split("/ ");
 				if (words.length > 0) {
 					for (String w : words) {
 						String[] chars = w.split(" ");
 						handlingWordsinDecodingProcess(sb, chars);
-						System.out.print(" ");
 						sb.append(" ");
 					}
 				}
@@ -118,21 +117,13 @@ public class MorseSample {
     
     
     private static void handlingWordsinDecodingProcess(StringBuffer sb, String[] chars) throws Exception {
-    	for (String morseCode : chars) {
-			
-    		List<String> morse = Arrays.asList(MORSE);
-    		
-    		if ((!morse.contains(morseCode)) && (morseCode != "") ) {
+    	for (String morseCode : chars) {		
+    		List<String> morse = Arrays.asList(MORSE);	
+    		if(morse.contains(morseCode)) {
+    			sb.append(ALPHABET[morse.indexOf(morseCode)]);
+    		} else {
     			throw new Exception ("there is a non valid morse code " + morseCode );
-            }
-    		
-    		for( int j = 0; j < MORSE.length; j++ ) {
-				if ( MORSE[j].equals(morseCode)) {
-                    //sb.append(ALPHABET.charAt(j));
-                	break;
-                }
-
-            } 
+    		}	
 		}
     } 
 
